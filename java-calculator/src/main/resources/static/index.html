@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunrise Tasks</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="todo-container">
+        <h1>Latest updatess by 4:20 </h1>
+        <p class="subtitle">Stay focused, stay productive.</p>
+        <div class="input-wrapper">
+            <input type="text" id="todo-input" placeholder="What needs to be done?">
+            <button class="add-btn" onclick="addTodo()">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+
+        <ul class="todo-list" id="todo-list">
+            <!-- Tasks will appear here -->
+        </ul>
+    </div>
+
+    <script>
+        const input = document.getElementById('todo-input');
+        const list = document.getElementById('todo-list');
+
+        // Add task on Enter key
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTodo();
+        });
+
+        function addTodo() {
+            const text = input.value.trim();
+            if (text === '') return;
+
+            const li = document.createElement('li');
+            li.className = 'todo-item';
+            li.innerHTML = `
+                <i class="far fa-circle check-btn" onclick="toggleComplete(this)"></i>
+                <span>${text}</span>
+                <i class="fas fa-trash delete-btn" onclick="deleteTodo(this)"></i>
+            `;
+
+            list.appendChild(li);
+            input.value = '';
+        }
+
+        function toggleComplete(btn) {
+            const item = btn.parentElement;
+            item.classList.toggle('completed');
+
+            if (item.classList.contains('completed')) {
+                btn.className = 'fas fa-check-circle check-btn';
+            } else {
+                btn.className = 'far fa-circle check-btn';
+            }
+        }
+
+        function deleteTodo(btn) {
+            const item = btn.parentElement;
+            item.style.transform = 'translateX(20px)';
+            item.style.opacity = '0';
+            setTimeout(() => {
+                item.remove();
+            }, 300);
+        }
+    </script>
+</body>
+
+</html>
